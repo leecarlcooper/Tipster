@@ -14,22 +14,23 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Flurry.logEvent("Settings page invoked")
 
         // set default tip
         let defaults = NSUserDefaults.standardUserDefaults()
         tipControl.selectedSegmentIndex = defaults.integerForKey("tipDefault")
-
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func tipDefaultChanged(sender: AnyObject) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(tipControl.selectedSegmentIndex, forKey: "tipDefault")
+        defaults.setBool(true, forKey: "loadDefault")
         defaults.synchronize()
-//        print("Changed tip Default")
+        
+        Flurry.logEvent("Tip default changed in Settings to index: " + String(tipControl.selectedSegmentIndex) + "; 0=15%; 1=18%; 2=20%")
     }
 }

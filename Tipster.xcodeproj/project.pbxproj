@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940D63B41D627288003D07B5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940D63B31D627288003D07B5 /* Security.framework */; };
+		940D63B61D627297003D07B5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940D63B51D627297003D07B5 /* SystemConfiguration.framework */; };
+		940D63BF1D62737C003D07B5 /* libFlurry_7.6.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 940D63BE1D62737C003D07B5 /* libFlurry_7.6.6.a */; };
 		94FAAAF61D58D43100D3900C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FAAAF51D58D43100D3900C /* SettingsViewController.swift */; };
 		94FBE8B61D57C2B60028D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBE8B51D57C2B60028D6D4 /* AppDelegate.swift */; };
 		94FBE8B81D57C2B60028D6D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBE8B71D57C2B60028D6D4 /* ViewController.swift */; };
@@ -16,6 +19,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		940D63B31D627288003D07B5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		940D63B51D627297003D07B5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		940D63BD1D62737C003D07B5 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		940D63BE1D62737C003D07B5 /* libFlurry_7.6.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.6.6.a; sourceTree = "<group>"; };
+		940D63C01D6273C1003D07B5 /* Tipster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tipster-Bridging-Header.h"; sourceTree = "<group>"; };
 		94FAAAF51D58D43100D3900C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		94FBE8B21D57C2B50028D6D4 /* Tipster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tipster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94FBE8B51D57C2B60028D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -31,6 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				940D63B61D627297003D07B5 /* SystemConfiguration.framework in Frameworks */,
+				940D63BF1D62737C003D07B5 /* libFlurry_7.6.6.a in Frameworks */,
+				940D63B41D627288003D07B5 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +51,8 @@
 		94FBE8A91D57C2B50028D6D4 = {
 			isa = PBXGroup;
 			children = (
+				940D63B51D627297003D07B5 /* SystemConfiguration.framework */,
+				940D63B31D627288003D07B5 /* Security.framework */,
 				94FBE8B41D57C2B60028D6D4 /* Tipster */,
 				94FBE8B31D57C2B50028D6D4 /* Products */,
 			);
@@ -56,6 +69,9 @@
 		94FBE8B41D57C2B60028D6D4 /* Tipster */ = {
 			isa = PBXGroup;
 			children = (
+				940D63BD1D62737C003D07B5 /* Flurry.h */,
+				940D63C01D6273C1003D07B5 /* Tipster-Bridging-Header.h */,
+				940D63BE1D62737C003D07B5 /* libFlurry_7.6.6.a */,
 				94FBE8B51D57C2B60028D6D4 /* AppDelegate.swift */,
 				94FBE8B71D57C2B60028D6D4 /* ViewController.swift */,
 				94FBE8B91D57C2B60028D6D4 /* Main.storyboard */,
@@ -99,6 +115,7 @@
 				TargetAttributes = {
 					94FBE8B11D57C2B50028D6D4 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TJNMP2S528;
 					};
 				};
 			};
@@ -253,10 +270,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lee Cooper (99PCR684E7)";
 				INFOPLIST_FILE = Tipster/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Flurry",
+					iPhone,
+					SDK,
+					viPhone,
+					SDK,
+					"7.6.6/Flurry-iOS-7.6.6/Flurry",
+					"$(PROJECT_DIR)/Tipster",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leecooperapps.Tipster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "Tipster/Tipster-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -264,10 +295,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Lee Cooper (TJNMP2S528)";
 				INFOPLIST_FILE = Tipster/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Flurry",
+					iPhone,
+					SDK,
+					viPhone,
+					SDK,
+					"7.6.6/Flurry-iOS-7.6.6/Flurry",
+					"$(PROJECT_DIR)/Tipster",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leecooperapps.Tipster;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "Tipster/Tipster-Bridging-Header.h";
 			};
 			name = Release;
 		};
