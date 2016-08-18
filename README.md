@@ -26,6 +26,7 @@ The following **additional** features are implemented:
 - [X] Launch image
 - [X] Settings icon
 - [X] Round tip or total up/down via swipe gesture
+- [X] Available on App Store at https://itunes.apple.com/us/app/tipster-for-tipping/id1144252099?mt=8
 
 ## Video Walkthrough 
 
