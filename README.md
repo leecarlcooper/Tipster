@@ -24,6 +24,7 @@ The following **additional** features are implemented:
 - [X] New design (colors/typography) with auto layout to accomodate all iPhone widths
 - [X] Home screen icon
 - [X] Launch image
+- [X] Settings icon
 - [X] Round tip or total up/down via swipe gesture
 
 ## Video Walkthrough 
@@ -38,7 +39,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
-- Implementing required functionality was pretty straightforward
+- Required functionality was pretty straightforward
+- Auto layout took a lot of time to get just right and was pretty time consuming
 
 ## License
 
