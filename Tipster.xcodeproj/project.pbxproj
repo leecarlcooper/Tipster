@@ -278,11 +278,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flurry",
-					iPhone,
-					SDK,
-					viPhone,
-					SDK,
-					"7.6.6/Flurry-iOS-7.6.6/Flurry",
 					"$(PROJECT_DIR)/Tipster",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leecooperapps.Tipster;
@@ -303,11 +298,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flurry",
-					iPhone,
-					SDK,
-					viPhone,
-					SDK,
-					"7.6.6/Flurry-iOS-7.6.6/Flurry",
 					"$(PROJECT_DIR)/Tipster",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.leecooperapps.Tipster;

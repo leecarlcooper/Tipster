@@ -116,9 +116,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if amount == 0 {
             tipLabel.text = " "
             totalLabel.text = " "
+            self.view.viewWithTag(1)?.hidden = true
+            self.view.viewWithTag(2)?.hidden = true
+            if tipControl.selectedSegmentIndex != -1 {
+                tipTitleLabel.text = tipTitles[tipControl.selectedSegmentIndex]
+            }
         } else {
             tipLabel.text = String(format: "%.2f", tip)
             totalLabel.text = String(format: "%.2f", total)
+            self.view.viewWithTag(1)?.hidden = false
+            self.view.viewWithTag(2)?.hidden = false
             tipTitleLabel.text = "TIP (+" + calculateTipPercentageString() + "%)"
         }
     }
