@@ -1,4 +1,2 @@
 README.md linguist-vendored
-Flurry/* linguist-vendored
-Tipster/Tipster/libFlurry_7.6.6.a linguist-vendored
-Flurry*iPhone*SDK*viPhone*SDK*7.6.6/* linguist-vendored
+*.m linguist-vendored
