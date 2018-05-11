@@ -4,3 +4,5 @@ Flurry\ iPhone\ SDK\ viPhone\ SDK 7.6.6/* linguist-vendored
 Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/Flurry\ API\ Documentation/* linguist-vendored
 Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/FlurryAds/* linguist-vendored
 Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/Flurry/* linguist-vendored
+Flurry/*.a linguist-vendored
+Tipster/*.a linguist-vendored
