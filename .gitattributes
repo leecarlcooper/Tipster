@@ -10,4 +10,5 @@ Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/FlurryAds/StaticAPI/* 
 Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/FlurryAds/Shared/* linguist-vendored
 Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/FlurryAds/FlurryAdBanner/* linguist-vendored
 Flurry\ iPhone\ SDK\ viPhone\ SDK\ 7.6.6/Flurry-iOS-7.6.6/FlurryTumblrAPI/* linguist-vendored
-Tipster/*.h
+Tipster/Flurry.h linguist-vendored
+Tipster/Tipster-Bridging-Header.h linguist-vendored
