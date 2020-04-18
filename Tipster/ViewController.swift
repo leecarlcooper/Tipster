@@ -76,7 +76,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         // customize nav bar
         navigationController!.navigationBar.barTintColor = UIColorFromHex(0x00A698, alpha: 1.0)
-        navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController!.navigationBar.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navigationController!.navigationBar.tintColor = UIColor.white
         
         // set panel color programmatically to try to match color of nav bar
@@ -86,26 +86,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
         totalLabel.textColor = UIColorFromHex(0x00A698, alpha: 1.0)
         
         // setup up swipe detection
-        tipSwipeRightRec.direction = UISwipeGestureRecognizerDirection.right
+        tipSwipeRightRec.direction = UISwipeGestureRecognizer.Direction.right
         tipSwipeRightRec.addTarget(self, action: #selector(ViewController.tipSwipedRightView))
         tipSwipeView.addGestureRecognizer(tipSwipeRightRec)
-        tipSwipeLeftRec.direction = UISwipeGestureRecognizerDirection.left
+        tipSwipeLeftRec.direction = UISwipeGestureRecognizer.Direction.left
         tipSwipeLeftRec.addTarget(self, action: #selector(ViewController.tipSwipedLeftView))
         tipSwipeView.addGestureRecognizer(tipSwipeLeftRec)
         tipSwipeView.isUserInteractionEnabled = true
         
-        totalSwipeRightRec.direction = UISwipeGestureRecognizerDirection.right
+        totalSwipeRightRec.direction = UISwipeGestureRecognizer.Direction.right
         totalSwipeRightRec.addTarget(self, action: #selector(ViewController.totalSwipedRightView))
         totalSwipeView.addGestureRecognizer(totalSwipeRightRec)
-        totalSwipeLeftRec.direction = UISwipeGestureRecognizerDirection.left
+        totalSwipeLeftRec.direction = UISwipeGestureRecognizer.Direction.left
         totalSwipeLeftRec.addTarget(self, action: #selector(ViewController.totalSwipedLeftView))
         totalSwipeView.addGestureRecognizer(totalSwipeLeftRec)
         totalSwipeView.isUserInteractionEnabled = true
         
-        splitSwipeRightRec.direction = UISwipeGestureRecognizerDirection.right
+        splitSwipeRightRec.direction = UISwipeGestureRecognizer.Direction.right
         splitSwipeRightRec.addTarget(self, action: #selector(ViewController.splitSwipedRightView))
         splitSwipeView.addGestureRecognizer(splitSwipeRightRec)
-        splitSwipeLeftRec.direction = UISwipeGestureRecognizerDirection.left
+        splitSwipeLeftRec.direction = UISwipeGestureRecognizer.Direction.left
         splitSwipeLeftRec.addTarget(self, action: #selector(ViewController.splitSwipedLeftView))
         splitSwipeView.addGestureRecognizer(splitSwipeLeftRec)
         splitSwipeView.isUserInteractionEnabled = true
@@ -157,7 +157,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 decrementButton.isHidden = false
                 // change image from whitecirclplus to whitecirclefilled
                 if let image = UIImage(named: "WhiteCircleFilled") {
-                    incrementButton.setImage(image, for: UIControlState())
+                    incrementButton.setImage(image, for: UIControl.State())
                 }
                 // show split and split amount
                 splitTitleLabel.isHidden = false
@@ -182,7 +182,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 decrementButton.isHidden = true
                 // change image from whitecirclplus to whitecirclefilled
                 if let image = UIImage(named: "WhiteCirclePlus") {
-                    incrementButton.setImage(image, for: UIControlState())
+                    incrementButton.setImage(image, for: UIControl.State())
                 }
                 // hide split and split amount
                 splitTitleLabel.isHidden = true
@@ -248,7 +248,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func tipSwipedRightView() {
+    @objc func tipSwipedRightView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
         if amount > 0 {
@@ -269,7 +269,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func tipSwipedLeftView() {
+    @objc func tipSwipedLeftView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
         if amount > 0 {
@@ -303,7 +303,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // enable/disable the tip control as appropriate
         for defaultTip in tipDefaultPercentages {
             if tipPercentage == defaultTip {
-                tipControl.selectedSegmentIndex = tipDefaultPercentages.index(of: defaultTip)!
+                tipControl.selectedSegmentIndex = tipDefaultPercentages.firstIndex(of: defaultTip)!
                 break   // done finding match
             } else {
                 tipControl.selectedSegmentIndex = -1
@@ -311,7 +311,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func totalSwipedRightView() {
+    @objc func totalSwipedRightView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
         if amount > 0 {
@@ -334,7 +334,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func totalSwipedLeftView() {
+    @objc func totalSwipedLeftView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
         if amount > 0 {
@@ -368,7 +368,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func splitSwipedRightView() {
+    @objc func splitSwipedRightView() {
         let amount = Double(amountField.text!) ?? 0
         if amount > 0 {
             var split = Double(splitLabel.text!) ?? 0
@@ -393,7 +393,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func splitSwipedLeftView() {
+    @objc func splitSwipedLeftView() {
         let amount = Double(amountField.text!) ?? 0
         if amount > 0 {
             var split = Double(splitLabel.text!) ?? 0
@@ -430,4 +430,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }
