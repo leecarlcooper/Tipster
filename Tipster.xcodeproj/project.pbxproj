@@ -12,6 +12,7 @@
 		940D63BF1D62737C003D07B5 /* libFlurry_7.6.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 940D63BE1D62737C003D07B5 /* libFlurry_7.6.6.a */; };
 		9490A2A22450C815004D20A1 /* TipsterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9490A2A12450C815004D20A1 /* TipsterManager.swift */; };
 		9490A2A42450D0DF004D20A1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9490A2A32450D0DF004D20A1 /* Constants.swift */; };
+		9490A2A624515DF3004D20A1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9490A2A524515DF3004D20A1 /* README.md */; };
 		94FAAAF61D58D43100D3900C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FAAAF51D58D43100D3900C /* SettingsViewController.swift */; };
 		94FBE8B61D57C2B60028D6D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBE8B51D57C2B60028D6D4 /* AppDelegate.swift */; };
 		94FBE8B81D57C2B60028D6D4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBE8B71D57C2B60028D6D4 /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 		940D63C01D6273C1003D07B5 /* Tipster-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tipster-Bridging-Header.h"; sourceTree = "<group>"; };
 		9490A2A12450C815004D20A1 /* TipsterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsterManager.swift; sourceTree = "<group>"; };
 		9490A2A32450D0DF004D20A1 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		9490A2A524515DF3004D20A1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		94FAAAF51D58D43100D3900C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		94FBE8B21D57C2B50028D6D4 /* Tipster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tipster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94FBE8B51D57C2B60028D6D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		94FBE8B41D57C2B60028D6D4 /* Tipster */ = {
 			isa = PBXGroup;
 			children = (
+				9490A2A524515DF3004D20A1 /* README.md */,
 				94E677C0244B86AD0081749F /* Model */,
 				94E677C1244B86B60081749F /* View */,
 				94E677C2244B86BE0081749F /* Controllers */,
@@ -192,6 +195,7 @@
 			files = (
 				94FBE8C01D57C2B60028D6D4 /* LaunchScreen.storyboard in Resources */,
 				94FBE8BD1D57C2B60028D6D4 /* Assets.xcassets in Resources */,
+				9490A2A624515DF3004D20A1 /* README.md in Resources */,
 				94FBE8BB1D57C2B60028D6D4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

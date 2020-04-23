@@ -37,19 +37,95 @@ struct TipsterManager {
         updateNumbersOnUI()
     }
     
+    mutating func tipRoundUp() {
+        if amount > 0 {
+            if tip.truncatingRemainder(dividingBy: 1) != 0 {
+                tip = ceil(tip)
+            } else {
+                tip += 1
+            }
+            tipPercentage = tip / amount
+            total = amount + tip
+            split = total / Double(people)
+
+            updateNumbersOnUI()
+        }
+    }
+    
+    mutating func tipRoundDown() {
+        if amount > 0 {
+            if tip.truncatingRemainder(dividingBy: 1) != 0 {
+                tip = ceil(tip) - 1
+            } else if tipPercentage > 0 {
+                tip -= 1
+            }
+            tipPercentage = tip / amount
+            total = amount + tip
+            split = total / Double(people)
+
+            updateNumbersOnUI()
+        }
+    }
+    
+    mutating func totalRoundUp() {
+        if amount > 0 {
+            if total.truncatingRemainder(dividingBy: 1) != 0 {
+                total = ceil(total)
+            } else {
+                total += 1
+            }
+            tip = total - amount
+            tipPercentage = tip / amount
+            split = total / Double(people)
+            
+            updateNumbersOnUI()
+        }
+    }
+    
+    mutating func totalRoundDown() {
+        if amount > 0 {
+            if total > amount {     // then we have room to go down
+                if total.truncatingRemainder(dividingBy: 1) != 0 {  // total has decimal place so round down (or go to amount if rounding down goes below amount)
+                    total = ceil(total) - 1
+                    if total < amount {
+                        total = amount
+                    }
+                } else if (total - 1) > amount {
+                    total -= 1
+                } else {
+                    total = amount
+                }
+                tip = total - amount
+                tipPercentage = tip / amount
+                split = total / Double(people)
+                
+                updateNumbersOnUI()
+            }
+        }
+    }
+    
+    mutating func tipValueSelected(segment arrayElement: Int) {
+        tipPercentage = tipDefaultPercentages[arrayElement]
+        tip = amount * tipPercentage
+        total = amount + tip
+        split = total / Double(people)
+
+        updateNumbersOnUI()
+    }
+    
     mutating func peopleIncremented() {
         if people < K.maxPeople {
             people += 1
         }
         split = total / Double(people)
-    
+        
         updateNumbersOnUI()
     }
     
     mutating func peopleDecremented() {
         people -= 1
         split = total / Double(people)
-    
+        
         updateNumbersOnUI()
     }
     
@@ -109,7 +185,7 @@ struct TipsterManager {
             return ""
         }
     }
-
+    
     //MARK: - Update UI
     func updateNumbersOnUI() {
         delegate?.didUpdateNumbers(

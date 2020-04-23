@@ -97,6 +97,7 @@
                                     <segment title="20%"/>
                                 </segments>
                                 <color key="tintColor" red="0.070588235294117646" green="0.59215686274509804" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="selectedSegmentTintColor" red="0.059256352480000003" green="0.59211248159999996" blue="0.52543109659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="tipControlValueChanges:" destination="BYZ-38-t0r" eventType="valueChanged" id="Db2-ub-gV5"/>
                                 </connections>
@@ -277,6 +278,7 @@
                                     <segment title="20%"/>
                                 </segments>
                                 <color key="tintColor" red="0.070588235294117646" green="0.59215686274509804" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="selectedSegmentTintColor" red="0.059256352480000003" green="0.59211248159999996" blue="0.52543109659999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="tipDefaultChanged:" destination="1cS-0T-zz9" eventType="valueChanged" id="hOR-sz-GA7"/>
                                 </connections>

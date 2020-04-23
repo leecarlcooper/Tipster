@@ -21,7 +21,6 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        Flurry.logEvent("Settings page invoked")
 
         // set default tip
         let defaults = UserDefaults.standard

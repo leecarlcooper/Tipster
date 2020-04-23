@@ -109,7 +109,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if loadDefault {
             tipControl.selectedSegmentIndex = defaults.integer(forKey: "tipDefault")
             tipsterManager.tipPercentage = tipsterManager.tipDefaultPercentages[tipControl.selectedSegmentIndex]
-            calculateTip(nil)
+            tipsterManager.tipValueSelected(segment: tipControl.selectedSegmentIndex)
             defaults.set(false, forKey: "loadDefault")
             defaults.synchronize()
         }
@@ -146,7 +146,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let amountValue = Double(amountField.text!) ?? 0
         tipsterManager.amountUpdated(to: amountValue)
         
-        calculateTip(nil)
+//        calculateTip(nil)
     }
     
     // Dismiss keyboard when screen is tapped (and presumably subtotal amount is entered)
@@ -155,105 +155,24 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Swipe detection related methods
-    //MARK: - Update model
     @objc func tipSwipedRightView() {
         view.endEditing(true)
-        let amount = Double(amountField.text!) ?? 0
-        if amount > 0 {
-            var tip = Double(tipLabel.text!) ?? 0
-            if tip.truncatingRemainder(dividingBy: 1) != 0 {
-                tip = ceil(tip)
-            } else {
-                tip += 1
-            }
-            tipsterManager.tipPercentage = tip / amount
-            tipLabel.text = String(format: "%.2f", tip)
-            let total = amount + tip
-            totalLabel.text = String(format: "%.2f", total)
-            adjustTipTextAndTipControl()
-            calculateSplit(total)
-        }
+        tipsterManager.tipRoundUp()
     }
     
-    //MARK: - Update model
     @objc func tipSwipedLeftView() {
         view.endEditing(true)
-        let amount = Double(amountField.text!) ?? 0
-        if amount > 0 {
-            var tip = Double(tipLabel.text!) ?? 0
-            if tip.truncatingRemainder(dividingBy: 1) != 0 {
-                tip = ceil(tip) - 1
-            } else if tipsterManager.tipPercentage > 0 {
-                tip -= 1
-            }
-            
-            tipsterManager.tipPercentage = tip / amount
-            let total = amount + tip
-            totalLabel.text = String(format: "%.2f", total)
-            
-            if tipsterManager.tipPercentage > 0 {
-                tipLabel.text = String(format: "%.2f", tip)
-            } else {
-                tipLabel.text = " "
-            }
-            adjustTipTextAndTipControl()
-            calculateSplit(total)
-        }
+        tipsterManager.tipRoundDown()
     }
     
-    //MARK: - Update model
     @objc func totalSwipedRightView() {
         view.endEditing(true)
-        let amount = Double(amountField.text!) ?? 0
-        if amount > 0 {
-            var tip = Double(tipLabel.text!) ?? 0
-            var total = amount + tip
-            if total.truncatingRemainder(dividingBy: 1) != 0 {
-                total = ceil(total)
-            } else {
-                total += 1
-            }
-            tip = total - amount
-            
-            tipsterManager.tipPercentage = tip / amount
-            tipLabel.text = String(format: "%.2f", tip)
-            totalLabel.text = String(format: "%.2f", total)
-            adjustTipTextAndTipControl()
-            calculateSplit(total)
-        }
+        tipsterManager.totalRoundUp()
     }
     
-    //MARK: - Update model
     @objc func totalSwipedLeftView() {
         view.endEditing(true)
-        let amount = Double(amountField.text!) ?? 0
-        if amount > 0 {
-            var tip = Double(tipLabel.text!) ?? 0
-            var total = amount + tip
-            
-            if total > amount {     // then we have room to go down
-                if total.truncatingRemainder(dividingBy: 1) != 0 {  // total has decimal place so round down (or go to amount if rounding down goes below amount)
-                    total = ceil(total) - 1
-                    if total < amount {
-                        total = amount
-                    }
-                } else if (total - 1) > amount {
-                    total -= 1
-                } else {
-                    total = amount
-                }
-                tip = total - amount
-                tipsterManager.tipPercentage = tip / amount
-                totalLabel.text = String(format: "%.2f", total)
-                if tipsterManager.tipPercentage > 0 {
-                    tipLabel.text = String(format: "%.2f", tip)
-                } else {
-                    tipLabel.text = " "
-                }
-                adjustTipTextAndTipControl()
-                calculateSplit(total)
-            }
-        }
+        tipsterManager.totalRoundDown()
     }
     
     @objc func splitSwipedRightView() {
@@ -264,12 +183,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         tipsterManager.splitRoundDown()
     }
     
-    //MARK: - update Model
     @IBAction func tipControlValueChanges(_ sender: AnyObject) {
-        tipsterManager.tipPercentage = tipsterManager.tipDefaultPercentages[tipControl.selectedSegmentIndex]
-        calculateTip(nil)
-        
         view.endEditing(true)
+        tipsterManager.tipValueSelected(segment: tipControl.selectedSegmentIndex)
     }
     
     //MARK: - People Count Change
@@ -304,73 +220,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //MARK: - TODO: abstract all the calculation to Model
-    func calculateTip(_ sender: AnyObject?) {
-        let amount = Double(amountField.text!) ?? 0
-        let tip = tipsterManager.tipPercentage * amount
-        let total = amount + tip
-        let split = total / Double(tipsterManager.people)
-        
-        if amount == 0 {
-            tipLabel.text = " "
-            totalLabel.text = " "
-            splitLabel.text = " "
-            self.view.viewWithTag(1)?.isHidden = true
-            self.view.viewWithTag(2)?.isHidden = true
-            self.view.viewWithTag(3)?.isHidden = true
-            if tipControl.selectedSegmentIndex != -1 {
-                tipTitleLabel.text = tipsterManager.tipTitles[tipControl.selectedSegmentIndex]
-            }
-        } else {
-            tipLabel.text = String(format: "%.2f", tip)
-            totalLabel.text = String(format: "%.2f", total)
-            splitLabel.text = String(format: "%.2f", split)
-            self.view.viewWithTag(1)?.isHidden = false
-            self.view.viewWithTag(2)?.isHidden = false
-            calculateSplit(total)
-            tipTitleLabel.text = "Tip (" + calculateTipPercentageString() + "%)"
-        }
-    }
-    
-    fileprivate func calculateSplit(_ total: Double) {
-        let split = total / Double(tipsterManager.people)
-        splitLabel.text = String(format: "%.2f", split)
-        self.view.viewWithTag(3)?.isHidden = false
-    }
-    
-    func calculateTipPercentageString() -> String {
-        let amount = Double(amountField.text!) ?? 0
-        if tipsterManager.tipPercentage > 0 {
-            var tipPercentageString: String
-            let tipPercentageRounded = round(tipsterManager.tipPercentage*100*10)/10 // round to 10th decimal place
-            if (tipPercentageRounded.truncatingRemainder(dividingBy: 1)) == 0 {
-                tipPercentageString = String(format: "%.0f", tipPercentageRounded)
-            } else {
-                tipPercentageString = String(format: "%.1f", tipPercentageRounded)
-            }
-            return tipPercentageString
-        } else if amount > 0 {   // tip is zero
-            return "0"
-        } else {
-            return ""
-        }
-    }
-    
-    //MARK: - TODO: extract out routine to adjust tip segment control as various values are being adjusted
-    func adjustTipTextAndTipControl() {
-        // recalc the Tip title %
-        tipTitleLabel.text = "Tip (" + calculateTipPercentageString() + "%)"
-        
-        // enable/disable the tip control as appropriate
-        for defaultTip in tipsterManager.tipDefaultPercentages {
-            if tipsterManager.tipPercentage == defaultTip {
-                tipControl.selectedSegmentIndex = tipsterManager.tipDefaultPercentages.firstIndex(of: defaultTip)!
-                break   // done finding match
-            } else {
-                tipControl.selectedSegmentIndex = -1
-            }
-        }
-    }
 }
 
 // Helper function inserted by Swift 4.2 migrator.
@@ -397,14 +246,15 @@ extension ViewController: TipsterManagerDelegate {
             splitLabel.text = split
         }
         
-        //                if tipsterManager.tipPercentage > 0 {
-        //                    tipLabel.text = String(format: "%.2f", tip)
-        //                } else {
-        //                    tipLabel.text = " "
-        //                }
-        //                adjustTipTextAndTipControl()
-
-        
+        //MARK: - TODO
+        //        // enable/disable the tip control as appropriate
+        //        for defaultTip in tipsterManager.tipDefaultPercentages {
+        //            if tipsterManager.tipPercentage == defaultTip {
+        //                tipControl.selectedSegmentIndex = tipsterManager.tipDefaultPercentages.firstIndex(of: defaultTip)!
+        //                break   // done finding match
+        //            } else {
+        //                tipControl.selectedSegmentIndex = -1
+        //            }
     }
     
 }
