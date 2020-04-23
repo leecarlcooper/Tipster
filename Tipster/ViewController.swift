@@ -48,6 +48,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tipsterManager.delegate = self
+        
         //MARK: - TODO: Migrate to Google Analytics
         // Setup basic app analytics with Flurry
         Flurry.startSession("JJGPHNJFH7C655XH7PR6")
@@ -140,7 +142,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         splitSwipeView.isUserInteractionEnabled = true
     }
     
-    
+    @IBAction func amountChanged(_ sender: UITextField) {        
+        let amountValue = Double(amountField.text!) ?? 0
+        tipsterManager.amountUpdated(to: amountValue)
+        
+        calculateTip(nil)
+    }
     
     // Dismiss keyboard when screen is tapped (and presumably subtotal amount is entered)
     @IBAction func screenTapped(_ sender: AnyObject) {
@@ -148,6 +155,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Swipe detection related methods
+    //MARK: - Update model
     @objc func tipSwipedRightView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
@@ -167,6 +175,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //MARK: - Update model
     @objc func tipSwipedLeftView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
@@ -192,6 +201,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //MARK: - Update model
     @objc func totalSwipedRightView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
@@ -213,6 +223,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    //MARK: - Update model
     @objc func totalSwipedLeftView() {
         view.endEditing(true)
         let amount = Double(amountField.text!) ?? 0
@@ -246,70 +257,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func splitSwipedRightView() {
-        
-print("Split swiped right")
-tipsterManager.splitRoundUp()
-        
-//        let amount = Double(amountField.text!) ?? 0
-//        if amount > 0 {
-//            var split = Double(splitLabel.text!) ?? 0
-//            if split.truncatingRemainder(dividingBy: 1) != 0 {
-//                split = ceil(split)
-//            } else {
-//                split += 1
-//            }
-//            // recalc total and tip and tip % based on new split
-//            let newTotal = split * Double(tipsterManager.people)
-//            let tip = newTotal - amount
-//            tipsterManager.tipPercentage = tip / amount
-//            if tipsterManager.tipPercentage > 0 {
-//                tipLabel.text = String(format: "%.2f", tip)
-//            } else {
-//                tipLabel.text = " "
-//            }
-//            totalLabel.text = String(format: "%.2f", newTotal)
-//            splitLabel.text = String(format: "%.2f", split)
-//            adjustTipTextAndTipControl()
-//        }
+        tipsterManager.splitRoundUp()
     }
     
     @objc func splitSwipedLeftView() {
-        let amount = Double(amountField.text!) ?? 0
-        if amount > 0 {
-            var split = Double(splitLabel.text!) ?? 0
-            
-            if (split * Double(tipsterManager.people)) > amount {     // then we have room to go down
-                if split.truncatingRemainder(dividingBy: 1) != 0 {  // split has decimal place so round down (or go to amount if rounding down goes below amount)
-                    if (split * Double(tipsterManager.people)) > amount { // room to go down
-                        let potentialSplit = ceil(split) - 1
-                        if (potentialSplit * Double(tipsterManager.people)) >= amount {
-                            split = potentialSplit
-                        } else { // go to zero tip
-                            split = amount / Double(tipsterManager.people)
-                        }
-                    }
-                } else if ((split - 1) * Double(tipsterManager.people)) >= amount {
-                    split -= 1
-                } else { // calc zero tip use case
-                    split = amount / Double(tipsterManager.people)
-                }
-                
-                // recalc total and tip and tip % based on new split
-                let newTotal = split * Double(tipsterManager.people)
-                let tip = newTotal - amount
-                tipsterManager.tipPercentage = tip / amount
-                if tipsterManager.tipPercentage > 0 {
-                    tipLabel.text = String(format: "%.2f", tip)
-                } else {
-                    tipLabel.text = " "
-                }
-                totalLabel.text = String(format: "%.2f", newTotal)
-                splitLabel.text = String(format: "%.2f", split)
-                adjustTipTextAndTipControl()
-            }
-        }
+        tipsterManager.splitRoundDown()
     }
     
+    //MARK: - update Model
     @IBAction func tipControlValueChanges(_ sender: AnyObject) {
         tipsterManager.tipPercentage = tipsterManager.tipDefaultPercentages[tipControl.selectedSegmentIndex]
         calculateTip(nil)
@@ -317,55 +272,40 @@ tipsterManager.splitRoundUp()
         view.endEditing(true)
     }
     
+    //MARK: - People Count Change
     @IBAction func incrementPeopleCount(_ sender: AnyObject) {
-        if tipsterManager.people < K.maxPeople {
-            tipsterManager.people += 1
-            if tipsterManager.people == 2 {
-                decrementButton.isHidden = false
-                // change image from whitecirclplus to whitecirclefilled
-                if let image = UIImage(named: "WhiteCircleFilled") {
-                    incrementButton.setImage(image, for: UIControl.State())
-                }
-                // show split and split amount
-                splitTitleLabel.isHidden = false
-                splitLabel.isHidden = false
+        tipsterManager.peopleIncremented()
+        
+        if decrementButton.isHidden == true {
+            decrementButton.isHidden = false
+            // change people plus button to people count
+            if let image = UIImage(named: "WhiteCircleFilled") {
+                incrementButton.setImage(image, for: UIControl.State())
             }
-            peopleCount.text = String(tipsterManager.people)
-            // recalc split
-            let total = Double(totalLabel.text!) ?? 0
-            if total > 0 {
-                calculateSplit(total)
-            }
-            Flurry.logEvent("People increment to: " + String(tipsterManager.people))
+            // show split and split amount if more than one person
+            splitTitleLabel.isHidden = false
+            splitLabel.isHidden = false
         }
     }
     
     @IBAction func decrementPeopleCount(_ sender: AnyObject) {
-        if tipsterManager.people > 1 {
-            tipsterManager.people -= 1
-            peopleCount.text = String(tipsterManager.people)
-            if tipsterManager.people == 1 {
-                peopleCount.text = " "
-                decrementButton.isHidden = true
-                // change image from whitecirclplus to whitecirclefilled
-                if let image = UIImage(named: "WhiteCirclePlus") {
-                    incrementButton.setImage(image, for: UIControl.State())
-                }
-                // hide split and split amount
-                splitTitleLabel.isHidden = true
-                splitLabel.isHidden = true
+        tipsterManager.peopleDecremented()
+        
+        if tipsterManager.people == 1 {
+            peopleCount.text = " "
+            decrementButton.isHidden = true
+            // change image from whitecirclplus to whitecirclefilled
+            if let image = UIImage(named: "WhiteCirclePlus") {
+                incrementButton.setImage(image, for: UIControl.State())
             }
-            // recalc split
-            let total = Double(totalLabel.text!) ?? 0
-            if total > 0 {
-                calculateSplit(total)
-            }
-            Flurry.logEvent("People decrement to: " + String(tipsterManager.people))
+            // hide split and split amount
+            splitTitleLabel.isHidden = true
+            splitLabel.isHidden = true
         }
     }
     
     //MARK: - TODO: abstract all the calculation to Model
-    @IBAction func calculateTip(_ sender: AnyObject?) {
+    func calculateTip(_ sender: AnyObject?) {
         let amount = Double(amountField.text!) ?? 0
         let tip = tipsterManager.tipPercentage * amount
         let total = amount + tip
@@ -444,11 +384,27 @@ fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [Stri
 extension ViewController: TipsterManagerDelegate {
     
     func didUpdateNumbers(tip: String, tipPercentage: String, total: String, people: Int, split: String) {
+        tipTitleLabel.text = "Tip (" + tipPercentage + "%)"
+        if tip == "0.00" {
+            tipLabel.text = " "
+        } else {
+            tipLabel.text = tip
+        }
+        totalLabel.text = total
+        if (people > 1) {
+            peopleCount.text = String(people)
+            splitTitleLabel.text = "Split"
+            splitLabel.text = split
+        }
+        
+        //                if tipsterManager.tipPercentage > 0 {
+        //                    tipLabel.text = String(format: "%.2f", tip)
+        //                } else {
+        //                    tipLabel.text = " "
+        //                }
+        //                adjustTipTextAndTipControl()
 
-        tipLabel.text = String(format: "%.2f", tip)
-        totalLabel.text = String(format: "%.2f", total)
-        splitLabel.text = String(format: "%.2f", split)
-
+        
     }
     
 }

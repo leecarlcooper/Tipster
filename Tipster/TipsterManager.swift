@@ -27,51 +27,99 @@ struct TipsterManager {
     var people = 1
     var split = 0.0
     
-    mutating func splitRoundUp() {
-        print("manager: split round up")
+    //MARK: - Changes in values
+    mutating func amountUpdated(to amountValue: Double) {
+        amount = amountValue
+        tip = amount * tipPercentage
+        total = amount + tip
+        split = total / Double(people)
         
+        updateNumbersOnUI()
+    }
+    
+    mutating func peopleIncremented() {
+        if people < K.maxPeople {
+            people += 1
+        }
+        split = total / Double(people)
+    
+        updateNumbersOnUI()
+    }
+    
+    mutating func peopleDecremented() {
+        people -= 1
+        split = total / Double(people)
+    
+        updateNumbersOnUI()
+    }
+    
+    mutating func splitRoundUp() {
         if amount > 0 {
             if split.truncatingRemainder(dividingBy: 1) != 0 {
                 split = ceil(split)
             } else {
                 split += 1
             }
-            
-            // recalc total, tip, tipPercentage
             total = split * Double(people)
             tip = total - amount
             tipPercentage = tip / amount
             
-            delegate?.didUpdateNumbers(
-                tip: String(format: "%.1f", tip),
-                tipPercentage: String(format: "%.1f", tipPercentage),
-                total: String(format: "%.1f", total),
-                people: people,
-                split: String(format: "%.1f", split)
-            )
+            updateNumbersOnUI()
         }
+    }
+    
+    mutating func splitRoundDown() {
+        if amount > 0 {
+            if (split * Double(people)) > amount {    // then we have room to go down
+                if split.truncatingRemainder(dividingBy: 1) != 0 {  // split has decimal place so round down (or go to amount if rounding down goes below amount)
+                    let potentialSplit = ceil(split) - 1
+                    if (potentialSplit * Double(people)) >= amount {
+                        split = potentialSplit
+                    } else { // go to zero tip
+                        split = amount / Double(people)
+                    }
+                } else if ((split - 1) * Double(people)) >= amount {
+                    split -= 1
+                } else { // calc zero tip use case
+                    split = amount / Double(people)
+                }
+                total = split * Double(people)
+                tip = total - amount
+                tipPercentage = tip / amount
+                
+                updateNumbersOnUI()
+            }
+        }
+    }
+    
+    //MARK: - Misc methods
+    func calculateTipPercentageString() -> String {
+        if tipPercentage > 0 {
+            var tipPercentageString: String
+            let tipPercentageRounded = round(tipPercentage*100*10)/10 // round to 10th decimal place
+            if (tipPercentageRounded.truncatingRemainder(dividingBy: 1)) == 0 {
+                tipPercentageString = String(format: "%.0f", tipPercentageRounded)
+            } else {
+                tipPercentageString = String(format: "%.1f", tipPercentageRounded)
+            }
+            return tipPercentageString
+        } else if amount > 0 {   // tip is zero
+            return "0"
+        } else {
+            return ""
+        }
+    }
+
+    //MARK: - Update UI
+    func updateNumbersOnUI() {
+        delegate?.didUpdateNumbers(
+            tip: String(format: "%.2f", tip),
+            tipPercentage: calculateTipPercentageString(),
+            total: String(format: "%.2f", total),
+            people: people,
+            split: String(format: "%.2f", split)
+        )
     }
     
 }
 
-
-//let amount = Double(amountField.text!) ?? 0
-//if amount > 0 {
-//    var split = Double(splitLabel.text!) ?? 0
-//    if split.truncatingRemainder(dividingBy: 1) != 0 {
-//        split = ceil(split)
-//    } else {
-//        split += 1
-//    }
-//    // recalc total and tip and tip % based on new split
-//    let newTotal = split * Double(tipsterManager.people)
-//    let tip = newTotal - amount
-//    tipsterManager.tipPercentage = tip / amount
-//    if tipsterManager.tipPercentage > 0 {
-//        tipLabel.text = String(format: "%.2f", tip)
-//    } else {
-//        tipLabel.text = " "
-//    }
-//    totalLabel.text = String(format: "%.2f", newTotal)
-//    splitLabel.text = String(format: "%.2f", split)
-//    adjustTipTextAndTipControl()

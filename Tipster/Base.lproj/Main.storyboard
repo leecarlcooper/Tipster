@@ -36,7 +36,7 @@
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="56"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                 <connections>
-                                    <action selector="calculateTip:" destination="BYZ-38-t0r" eventType="editingChanged" id="sEH-4z-YPQ"/>
+                                    <action selector="amountChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="ikR-nz-RlL"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Tip (15%)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfs-hT-guZ">
