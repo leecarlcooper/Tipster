@@ -37,6 +37,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9490A2AA2451644F004D20A1"
+               BuildableName = "TipsterUITests.xctest"
+               BlueprintName = "TipsterUITests"
+               ReferencedContainer = "container:Tipster.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

@@ -21,6 +21,9 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // have to set selected text color starting in iOS 13
+        tipControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
 
         // set default tip
         let defaults = UserDefaults.standard

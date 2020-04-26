@@ -55,6 +55,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         Flurry.startSession("JJGPHNJFH7C655XH7PR6")
         Flurry.logEvent("Launched application")
         
+        // have to set selected text color starting in iOS 13
+        tipControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+        
         // Brief launch image special effect
         let screenSize: CGRect = UIScreen.main.bounds
         var redIconView, grayBackgroundView : UIImageView
@@ -239,7 +242,11 @@ extension ViewController: TipsterManagerDelegate {
         } else {
             tipLabel.text = tip
         }
-        totalLabel.text = total
+        if total == "0.00" {
+            totalLabel.text = " "
+        } else {
+            totalLabel.text = total
+        }
         if (people > 1) {
             peopleCount.text = String(people)
             splitTitleLabel.text = "Split"
