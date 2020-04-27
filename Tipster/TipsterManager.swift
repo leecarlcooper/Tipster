@@ -9,7 +9,7 @@
 import Foundation
 
 protocol TipsterManagerDelegate {
-    func didUpdateNumbers(tip: String, tipPercentage: String, total: String, people: Int, split: String)
+    func didUpdateNumbers(tip: String, tipPercentage: String, tipSegment: Int, total: String, people: Int, split: String)
 }
 
 struct TipsterManager {
@@ -188,9 +188,21 @@ struct TipsterManager {
     
     //MARK: - Update UI
     func updateNumbersOnUI() {
+        var tipSegment = -1
+        switch tipPercentage {
+        case K.lowTipPercentage:
+            tipSegment = 0
+        case K.midTipPercentage:
+            tipSegment = 1
+        case K.highTipPercentage:
+            tipSegment = 2
+        default:
+            tipSegment = -1
+        }
         delegate?.didUpdateNumbers(
             tip: String(format: "%.2f", tip),
             tipPercentage: calculateTipPercentageString(),
+            tipSegment: Int(tipSegment),
             total: String(format: "%.2f", total),
             people: people,
             split: String(format: "%.2f", split)

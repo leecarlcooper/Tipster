@@ -235,7 +235,7 @@ fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [Stri
 
 extension ViewController: TipsterManagerDelegate {
     
-    func didUpdateNumbers(tip: String, tipPercentage: String, total: String, people: Int, split: String) {
+    func didUpdateNumbers(tip: String, tipPercentage: String, tipSegment: Int, total: String, people: Int, split: String) {
         tipTitleLabel.text = "Tip (" + tipPercentage + "%)"
         if tip == "0.00" {
             tipLabel.text = " "
@@ -247,6 +247,7 @@ extension ViewController: TipsterManagerDelegate {
         } else {
             totalLabel.text = total
         }
+        tipControl.selectedSegmentIndex = tipSegment
         if (people > 1) {
             peopleCount.text = String(people)
             splitTitleLabel.text = "Split"
