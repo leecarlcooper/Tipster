@@ -27,7 +27,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="How much?" textAlignment="right" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="xIJ-gQ-jrG">
-                                <rect key="frame" x="195" y="132.33333333333334" width="160" height="68.666666666666657"/>
+                                <rect key="frame" x="195" y="132.66666666666666" width="160" height="68.333333333333343"/>
                                 <color key="tintColor" red="0.16078431369999999" green="0.61568627450000002" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="4xp-Qd-WMx"/>
@@ -104,7 +104,7 @@
                                 </connections>
                             </segmentedControl>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="03b-fX-dmq">
-                                <rect key="frame" x="0.0" y="526.66666666666663" width="375" height="251.33333333333337"/>
+                                <rect key="frame" x="0.0" y="526.66666666666663" width="375" height="285.33333333333337"/>
                                 <color key="backgroundColor" red="0.070588235294117646" green="0.59215686274509804" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z7h-97-oMW">
@@ -174,11 +174,11 @@
                             <constraint firstItem="KdF-s2-zRR" firstAttribute="centerY" secondItem="Z7h-97-oMW" secondAttribute="centerY" id="A8w-KL-gW4"/>
                             <constraint firstItem="shR-S1-kbf" firstAttribute="top" secondItem="5Sh-If-uGG" secondAttribute="bottom" constant="-8" id="AvT-Dm-9FH"/>
                             <constraint firstAttribute="leadingMargin" secondItem="pM0-Bm-l0Z" secondAttribute="leading" id="C12-9m-0nT"/>
-                            <constraint firstItem="03b-fX-dmq" firstAttribute="bottom" secondItem="MYP-8C-adh" secondAttribute="top" id="C6J-o1-mxK"/>
                             <constraint firstItem="IAv-xH-38b" firstAttribute="top" secondItem="Z7h-97-oMW" secondAttribute="bottom" constant="8" symbolic="YES" id="D0u-8I-2mj"/>
                             <constraint firstItem="NOf-Qz-ynI" firstAttribute="centerY" secondItem="lvl-Ub-IHf" secondAttribute="centerY" id="Dcg-Bv-5Sc"/>
                             <constraint firstItem="pM0-Bm-l0Z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HR9-zs-5eJ"/>
                             <constraint firstItem="Dfs-hT-guZ" firstAttribute="top" secondItem="pM0-Bm-l0Z" secondAttribute="bottom" constant="8" symbolic="YES" id="IIV-RS-IXc"/>
+                            <constraint firstAttribute="bottom" secondItem="03b-fX-dmq" secondAttribute="bottom" id="Lfl-HU-USJ"/>
                             <constraint firstItem="dRZ-0E-Bcj" firstAttribute="top" secondItem="lvl-Ub-IHf" secondAttribute="bottom" constant="8" symbolic="YES" id="Nn2-pm-tAP"/>
                             <constraint firstItem="lvl-Ub-IHf" firstAttribute="top" secondItem="Dfs-hT-guZ" secondAttribute="bottom" constant="8" symbolic="YES" id="NsA-Le-4eJ"/>
                             <constraint firstItem="5Sh-If-uGG" firstAttribute="centerY" secondItem="Dfs-hT-guZ" secondAttribute="centerY" id="OP7-12-X05"/>
@@ -316,7 +316,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKz-Lw-ksM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1060.8" y="263.56821589205401"/>
+            <point key="canvasLocation" x="-1060" y="269"/>
         </scene>
     </scenes>
     <resources>
